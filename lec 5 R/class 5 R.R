@@ -1,15 +1,17 @@
-#' ---
-#' title: "Data Visualization in R"
-#' author: "Susanti Sarkar"
-#' date: "January 24th, 2019"
-#' ---
+---
+title: "Data Visualization in R"
+author: "Susanti Sarkar"
+date: "January 24th, 2019"
+output: github_document
+---
 
 #' Class 5
-#' This is some test and I can have **bold* and *italic* and `code`
+#' This is some test and I can have *bold* and *italic* and `code`
 
 
 #My first boxplot
 x <- rnorm(1000,0)
+x
 boxplot( x )
 
 summary(x)
@@ -22,7 +24,7 @@ boxplot(x, horizontal = TRUE)
 b <- read.table("weight_chart.txt", header = TRUE)
 b
 plot(b, type="o", pch=15, cex=1.5, lwd=2, ylim=c(2, 10), xlab = "Age (months)", ylab = "Weight (kg)", main = "Baby Weight with Age")
-mouse <- read.table("feature_counts.txt", header = TRUE, sep = "\t")
+#mouse <- read.table("feature_counts.txt", header = TRUE, sep = "\t")
 barplot (mouse$Count, ylab = "Number of features", horiz = TRUE, names.arg = mouse$Feature, las=1)
 
 # Change margin so we can see the labels 
