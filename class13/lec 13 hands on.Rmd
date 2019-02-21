@@ -1,0 +1,105 @@
+---
+title: "Class 13: Structure based drug discovery"
+author: "Susanti Sarkar"
+date: "2/19/2019"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Class 13 hands on W/S: Prepare HIV-protease molecule for docking
+
+First get a PDB structure from the online database then clean it up for docking
+
+```{r}
+library("bio3d")
+```
+
+```{r}
+file.name <- get.pdb("1hsg")
+```
+
+```{r}
+file.name
+```
+
+
+Read file into R and clean it up (remove non- protein bits) and also we will save the ligand into a separate file
+
+```{r}
+hiv <- read.pdb(file.name)
+hiv
+```
+
+
+## Q1: What is the name of the two non protein resid values in this structure? What does resid correspond to and how would you get a listing of all resid values in this structure? 
+
+Ans: see above (by running hiv)
+
+Non-protein/nucleic resid values: [ HOH (127), MK1 (1) ]
+
+##1.2 Prepare initial protein and ligand input files
+
+This function will not have any non-protein residues!:
+```{r}
+prot <- trim.pdb(hiv, "protein")
+prot
+```
+
+To create a new file of this under "Files" tab:(for next one can use 1hsg_ligand)
+
+```{r}
+write.pdb(prot, file = "1hsg_protein.pdb")
+```
+
+```{r}
+lig <- trim.pdb(hiv, "ligand")
+lig
+```
+
+```{r}
+write.pdb(lig, file = "1hsg_ligand.pdb")
+```
+
+## 1.3 Using AutoDockTools to setup protein docking input
+
+## 1.5 Prepare a docking configuration file
+
+## 2.3 Inspecting your docking results  (~b/c pdbqt can't be opened in VMD)
+used "all.pdbqt" because that was what we called the output ("out") in our config.txt file
+
+```{r}
+library(bio3d)
+res <- read.pdb("all.pdbqt", multi=TRUE)
+write.pdb(res, "results.pdb")
+```
+
+```{r}
+res <- read.pdb("all.pdbqt", multi=TRUE)
+ori <- read.pdb("ligand.pdbqt")
+rmsd(ori, res)
+```
+
+## Q6: How would you determine the RMSD for heavy atoms only (i.e. non hydrogen atoms)? 
+
+## Sections 3 and 4?
+
+## Normal mode Analysis
+
+```{r}
+pdb <- read.pdb("1HEL")
+
+m <- nma(pdb)
+plot(m)
+```
+
+
+```{r}
+mktrj(m, mode = 7, file = "nma_7.pdb")
+```
+
+#^ load into VMD and run to see flexibility
+
+
