@@ -1,0 +1,108 @@
+---
+title: "Class 11 Structural Bioinformatics"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Section 1. The PDB
+
+Q1. Determine the percentage of structures solved by X-Ray and Electron Microscopy. What proportion of structures are protein?
+
+```{r}
+stats <- read.csv("Data Export Summary.csv", row.names = 1)
+stats
+```
+```{r}
+(prop.table(stats$Proteins))*100
+```
+
+
+```{r}
+stats$Total[1]/sum(stats$Total) * 100
+percent.by.method <- stats$Total/sum(stats$Total) * 100
+names(percent.by.method) <- rownames(stats)
+percent.by.method
+```
+
+```{r}
+sum(stats$Proteins)/ sum(stats$Total) * 100
+```
+
+## How many HIV-1 protease structures are in the current PDB?
+
+##Section 2
+
+##Section 3
+
+
+## First load the package
+
+```{r}
+library(bio3d)
+```
+
+```{r}
+example(bio3d)
+```
+
+## Now we can use the functions from this bio 3d package
+
+```{r}
+pdb <- read.pdb("1hsg")
+pdb
+```
+
+## ~ To find out what something is
+
+```{r}
+pdb$atom
+```
+
+## aa321 to change 3 letters to 1 letter code for amino acids
+
+```{r}
+pdb$atom$resid
+```
+
+```{r}
+head (aa321( pdb$atom$resid))
+```
+
+## Q8. Use the Bio3D write.pdb() function to write out a protein only PDB file for viewing in VMD. Also write out a second separate PDB file for the ligand with residue name MK1. (~ ~)
+
+## We want to select out the protein and drug only parts of these molecular PDB files.
+
+```{r}
+prot.inds <- atom.select(pdb, "protein")
+prot.inds
+```
+##(^3 xyz for every atom)
+
+```{r}
+prot.pdb <- trim.pdb(pdb, prot.inds)
+write.pdb(prot.pdb, file = "protein.pdb")
+```
+
+## Let's do the same thing for our drug (these are new funtions! know)
+
+```{r}
+lig.inds <- atom.select(pdb, "ligand")
+lig.pdb <- trim.pdb(pdb, lig.inds)
+write.pdb(lig.pdb, file = "ligand.pdb")
+```
+
+
+## See slides for this..have to install something else and will get VMD plot in R!
+
+```{r}
+library(bio3d.view)
+view(pdb, "overview")
+```
+
+
+
+
+
