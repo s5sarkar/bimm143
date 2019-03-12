@@ -97,10 +97,7 @@ write.pdb(lig.pdb, file = "ligand.pdb")
 
 ## See slides for this..have to install something else and will get VMD plot in R!
 
-```{r}
-library(bio3d.view)
-view(pdb, "overview")
-```
+
 
 
 
